@@ -1,8 +1,9 @@
 @extends('layouts.app')
 @section('title') Edit @endsection
 @section('content')
-    <form>
+    <form method="post" action="{{route('posts.update',1)}}">
         @csrf
+        @method('PUT')
         <div class="mb-3">
             <label class="form-lable">Title</label>
             <input name="title" type="text" class="form-control">
