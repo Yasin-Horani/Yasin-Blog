@@ -57,7 +57,8 @@ class PostController extends Controller
 
         Post::create([
             'title' => $title,
-            'description' => $description
+            'description' => $description,
+            'user_id'=>$post_creator,
         ]);
 
         return to_route('posts.index');
@@ -78,7 +79,8 @@ class PostController extends Controller
         $singlePost = Post::find($postId);
         $singlePost->update([
             'title' => $title,
-            'description' => $description
+            'description' => $description,
+            'user_id'=>$post_creator,
         ]);
         return to_route('posts.show', $postId);
     }
