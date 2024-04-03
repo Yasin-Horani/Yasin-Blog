@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -35,7 +36,8 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('posts.create');
+        $users = User::all();
+        return view('posts.create', ['users' => $users]);
     }
 
     public function store()
@@ -45,25 +47,46 @@ class PostController extends Controller
         $description = request()->description;
         $post_creator = request()->post_creator;
         //dd($data, $title, $description, $post_creator);
+        /*
+        $post = new Post();
+        $post->title;
+        $post->description;
+        //$post->name;
+        $post->save();
+        */
+
+        Post::create([
+            'title' => $title,
+            'description' => $description
+        ]);
+
         return to_route('posts.index');
     }
 
-    public function edit()
+    public function edit(Post $post)
     {
-        return view('posts.edit');
+        $users = User::all();
+        return view('posts.edit',['users' => $users, 'post'=>$post]);
     }
 
-    public function update()
+    public function update($postId)
     {
         $title = request()->title;
         $description = request()->description;
         $post_creator = request()->post_creator;
         //dd($title, $description, $post_creator);
-        return to_route('posts.show', 1);
+        $singlePost = Post::find($postId);
+        $singlePost->update([
+            'title' => $title,
+            'description' => $description
+        ]);
+        return to_route('posts.show', $postId);
     }
 
-    public function destroy()
+    public function destroy($postId)
     {
+        $post = Post::find($postId);
+        $post->delete();
         return to_route('posts.index');
     }
 }
