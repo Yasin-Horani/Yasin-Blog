@@ -15,13 +15,22 @@ class PostController extends Controller
         return view('posts.index', ['posts' => $postsFromDB]);
     }
 
+    /*
     public function show($postId)
     {
-        //$singlePost = Post::find($postId);
         //$singlePost = Post::where('id',$postId)->get();
-        $singlePost = Post::where('id',$postId)->first(); // SELECT * FROM posts WHERE id = $postId LIMIT 1;
+        //$singlePost = Post::where('id',$postId)->first(); // SELECT * FROM posts WHERE id = $postId LIMIT 1;
+        //$singlePost = Post::find($postId); //// SELECT * FROM posts WHERE id = $postId LIMIT 1;
+        $singlePost = Post::findOrFail($postId);
         return view('posts.show', ['post' => $singlePost]);
 
+    }
+    */
+
+    // https://laravel.com/docs/11.x/routing#route-model-binding
+    public function show(Post $post)
+    {
+        return view('posts.show', ['post' => $post]);
     }
 
     public function create()
@@ -43,6 +52,7 @@ class PostController extends Controller
     {
         return view('posts.edit');
     }
+
     public function update()
     {
         $title = request()->title;
@@ -51,6 +61,7 @@ class PostController extends Controller
         //dd($title, $description, $post_creator);
         return to_route('posts.show', 1);
     }
+
     public function destroy()
     {
         return to_route('posts.index');
