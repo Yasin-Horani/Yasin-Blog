@@ -40,4 +40,9 @@ class PostController extends Controller
         //dd($data, $title, $description, $post_creator);
         return to_route('posts.index');
     }
+
+    public function edit()
+    {
+        return view('posts.edit');
+    }
 }
