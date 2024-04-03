@@ -55,7 +55,6 @@ class PostController extends Controller
     }
     public function destroy()
     {
-        //return 'deleter from controller';
         return to_route('posts.index');
     }
 }
